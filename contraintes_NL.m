@@ -1,6 +1,6 @@
 function [ceq,cineq]=contraintes_NL(x)
 % Contraintes relatives aux rampes
-global rampeDown24 rampeUp24 Demand
+global rampeDown24 rampeUp24 Demand Pinit
 for k=1:12*24
     cineq(k)=x(k+1)-x(k)-rampeUp24(k);
     cineq(k+12*24)=x(k)-rampeDown24(k)-x(k+1);
@@ -15,35 +15,18 @@ for k=1:12
     cineq(k+12+576)=-minimumUpTime(k)+Temps2Fonctionnement(k+12);
 end
 
+% Contraintes relatives aux rampes initiales
+for k=1:12
+    for i=1:24:288
+        cineq(end+1)=x(i)-rampeUp24(i)-Pinit(k);
+        cineq(end+1)=Pinit(k)-rampeDown24-x(i);
+    end
+end
+
 % Contraintes pour la satisfaction de la demande
 P = x(1:12*24);
 for k=1:24
     ceq(k)=sum(P(k:24:12*24)) - Demand(k);
 end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% Contraintes relatives aux conditions initales de fonctionnement
-
-ceq=[];
 
 end
