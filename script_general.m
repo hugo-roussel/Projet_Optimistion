@@ -1,7 +1,7 @@
 %% Exportation des données
 [donnees,textes,lesdeux]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
 
-global OperationalCost ReserveCostPos ReserveCostNeg
+global OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
 p_min=donnees(:,4); % Puissance minimale 
 p_max=donnees(:,5); % Puissance maximale
 reservePos=donnees(:,6); % Capacité de réserve positive
@@ -22,11 +22,7 @@ global InitLength
 InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initiale
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
-<<<<<<< HEAD
-n(2)=12*24*2; % Relatif aux rampes
-=======
-n(2)=12*24; % Relatif aux réserves pos et neg
->>>>>>> b2491f1b5e1a7cf2b96ada581781d129632b7ea0
+n(2)=12*24*2; % Relatif aux réserves pos et neg
 n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24);

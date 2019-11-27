@@ -1,5 +1,5 @@
 function f=cout(x)
-global OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
+global OperationalCost ReserveCostPos ReserveCostNeg
 %coût lié à la production d'énergie
 cout_ope = x(1:12*24)*repmat(OperationalCost,24,1);
 
@@ -23,7 +23,6 @@ for i=1:12 %boucle sur les machines
         end
     end
 end
-cout_dem = dem*StartUpCost;
 %coût total
-f = cout_ope + cout_res_pos + cout_res_neg + cout_dem;
+f = cout_ope + cout_res_pos + cout_res_neg;
 end
