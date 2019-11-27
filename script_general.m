@@ -25,10 +25,6 @@ Demand=donnees_demande(:,2); % Demande de puissance (MW)
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
 % n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
-<<<<<<< HEAD
-
-=======
->>>>>>> bfcc763e8a00f7d90ff1ad69d6ac81af0468b981
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24*4);
 % Les 12*24 premières colonnes seront dédiées aux puissances

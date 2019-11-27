@@ -15,15 +15,13 @@ for k=1:12
     cineq(k+12+576)=-minimumUpTime(k)+Temps2Fonctionnement(k+12);
 end
 % Contraintes pour la satisfaction de la demande
-P = x(1:12*24);
+P = x(1:12*24); %puissances de chaque machine pour chaque heure
 for k=1:24
     ceq(k)=sum(P(k:24:12*24)) - Demand(k);
 end
 
-<<<<<<< HEAD
 end
-=======
->>>>>>> bfcc763e8a00f7d90ff1ad69d6ac81af0468b981
+
 
 
 
