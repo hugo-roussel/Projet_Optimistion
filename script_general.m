@@ -1,7 +1,8 @@
 %% Exportation des données
-[donnees,textes,lesdeux]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
+[donnees,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
+[donnees_demande,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableau1');
 
-global Pinit InitState minimumUpTime minimumDownTime InitLength OperationalCost ReserveCostPos ReserveCostNeg StartUpCost rampeUp24 rampeDown24
+global Pinit InitState minimumUpTime minimumDownTime InitLength OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
 p_min=donnees(:,4); % Puissance minimale 
 p_max=donnees(:,5); % Puissance maximale
 reservePos=donnees(:,6); % Capacité de réserve positive
@@ -20,24 +21,22 @@ InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initi
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
-<<<<<<< HEAD
-%n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
-=======
 % n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
->>>>>>> 5da8598b4b14fdc51aee37c1d87e75b6aa6ba697
-
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24*4);
 % Les 12*24 premières colonnes seront dédiées aux puissances
 % Les 12*24*2 aux réservePos et reserve Neg
 %% Contraintes
 % Matrice contraintes de rampes de puissances
+global resCostPos24 resCostNeg24 rampeUp24 rampeDown24
 rampeUp24=[];
 rampeDown24=[];
 p_min24=[];
 p_max24=[];
 resPos24=[];
 resNeg24=[];
+resCostPos24=[];
+resCostNeg24=[];
 for i=1:12
     rampeUp24=[rampeUp24 ones(1,24)*rampeUpRate(i)];
     rampeDown24=[rampeDown24 ones(1,24)*rampeDownRate(i)];
@@ -45,7 +44,11 @@ for i=1:12
     p_max24=[p_max24 ones(1,24)*p_max(i)];
     resPos24=[resPos24 ones(1,24)*reservePos(i)];
     resNeg24=[resNeg24 ones(1,24)*reserveNeg(i)];
+    resCostPos24=[resCostPos24 ones(1,24)*ReserveCostPos(i)];
+    resCostNeg24=[resCostNeg24 ones(1,24)*ReserveCostNeg(i)];
 end
+resCostPos24=resCostPos24';
+resCostNeg24=resCostNeg24';
 rampeUp24=rampeUp24';
 rampeDown24=rampeDown24';
 

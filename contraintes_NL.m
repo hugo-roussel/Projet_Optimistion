@@ -15,5 +15,29 @@ for k=1:12
     cineq(k+12+576)=-minimumUpTime(k)+Temps2Fonctionnement(k+12);
 end
 
-ceq=[]
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Contraintes relatives aux conditions initales de fonctionnement
+
+ceq=[];
+
+end
