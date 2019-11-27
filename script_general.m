@@ -1,7 +1,7 @@
 %% Exportation des données
 [donnees,textes,lesdeux]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
 
-global OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
+global Pinit InitState minimumUpTime minimumDownTime InitLength OperationalCost ReserveCostPos ReserveCostNeg StartUpCost rampeUp24 rampeDown24
 p_min=donnees(:,4); % Puissance minimale 
 p_max=donnees(:,5); % Puissance maximale
 reservePos=donnees(:,6); % Capacité de réserve positive
@@ -14,16 +14,17 @@ OperationalCost=donnees(:,12); % Cout de fonctionnelent
 ReserveCostPos=donnees(:,13); % Cout de réserve positive
 ReserveCostNeg=donnees(:,14); % Cout de réserve négative
 StartUpCost=donnees(:,15); % Cout de démarrage
-global Pinit
 Pinit=donnees(:,16); % Puissance production à l'instant initiale
-global InitState
 InitState=donnees(:,17); % Etat de fonctionnement à l'instant initiale
-global InitLength 
 InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initiale
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
+<<<<<<< HEAD
 %n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
+=======
+% n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
+>>>>>>> 5da8598b4b14fdc51aee37c1d87e75b6aa6ba697
 
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24*4);
@@ -31,7 +32,6 @@ x=randi([0 1],1,12*24*4);
 % Les 12*24*2 aux réservePos et reserve Neg
 %% Contraintes
 % Matrice contraintes de rampes de puissances
-global rampeUp24 rampeDown24
 rampeUp24=[];
 rampeDown24=[];
 p_min24=[];
