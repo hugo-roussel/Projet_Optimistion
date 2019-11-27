@@ -25,26 +25,19 @@ for i=1:12 % Numéro de la machine
             end
         else % Si la machine est à l'arrêt
             if j==1 % A l'initialisation
-                if InitLength(i)~=0 % Si elle était éteinte avant, on diminue son temps de 1 heure
+                if InitLength(i)<0 % Si elle était éteinte avant, on diminue son temps de 1 heure
                     Liste(i,j)=InitLength(i)-1;
                 else % Sinon, on la met à -1 heure de fonctionnement
                     Liste(i,j)=0;
                 end
             elseif j==2
-                if Liste(i,j-1)<0 && InitLength(i)<0 % Si elle était éteinte avant, on diminue son temps de 1 heure
+                if Liste(i,j-1)<=0 % Si elle était éteinte avant, on diminue son temps de 1 heure
                     Liste(i,j)=Liste(i,j-1)-1;
                 else % Sinon, on reset son temps de fonctionnement à 0
                     Liste(i,j)=0;
                 end
             else % Pour tous les temps
-                if Liste(i,j-1)<0 && Liste(i,j-2)<0 % Si elle était éteinte avant, on diminue son temps de 1 heure
-                    Liste(i,j)=Liste(i,j-1)-1;
-                else % Sinon, on reset son temps de fonctionnement à 0
-                    Liste(i,j)=Liste(i,j-1)+1;
-                end
-            end
-            else % Pour tous les temps
-                if Liste(i,j-1)~=0 % Si elle était éteinte avant, on diminue son temps de 1 heure
+                if Liste(i,j-1)<=0 && Liste(i,j-2)<=0 % Si elle était éteinte avant, on diminue son temps de 1 heure
                     Liste(i,j)=Liste(i,j-1)-1;
                 else % Sinon, on reset son temps de fonctionnement à 0
                     Liste(i,j)=0;
@@ -52,6 +45,5 @@ for i=1:12 % Numéro de la machine
             end
         end
     end
-end
 end
 end
