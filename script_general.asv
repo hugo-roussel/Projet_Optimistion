@@ -37,14 +37,14 @@ rampeDown24=[];
 p_min24=[];
 p_max24=[];
 resPos24=[];
-resNeg24=[];
+resMin24=[];
 for i=1:12
     rampeUp24=[rampeUp24 ones(1,24)*rampeUpRate(i)];
     rampeDown24=[rampeDown24 ones(1,24)*rampeDownRate(i)];
     p_min24=[p_min24 ones(1,24)*p_min(i)];
     p_max24=[p_max24 ones(1,24)*p_max(i)];
     resPos24=[resPos24 ones(1,24)*reservePos(i)];
-    resNeg24=[resNeg24 ones(1,24)*reserveNeg(i)];
+    resMin24=[resMin24 ones(1,24)*reserveMin(i)];
 end
 rampeUp24=rampeUp24';
 rampeDown24=rampeDown24';
@@ -53,22 +53,12 @@ rampeDown24=rampeDown24';
 "La fonction temps_fonctionnement s'en charge, utilisée dans les contraintes_NL";
 
 %% Optimisation
-%fonction coût à optimiser
-fun = @(x)cout(x);
+%définition des bornes basses & hautes
+lb = [p_min' zeros(1,n(2))];
+ub = [p_max' repmat(reservePos',1,24)];
 
-%contraintes ineg & eg
-Aineq = [];
-bineq=[];
-
-Aeq=[];
-beq=[];
-
-%bornes basses & hautes
-lb = [zeros(1,n(1)) zeros(1,n(2))];
-ub = [p_max24 resPos24 resNeg24];
-
-%vecteur initialisation
-x0 = [p_min24 zeros(1,n(2))];
+%définition du vecteur initialisation
+x0 = zeros(sum(n));
 
 % Options liées à l'utilisation de fmincon 
 options = optimoptions('fmincon','Display','iter','Diagnostics','on');
