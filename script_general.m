@@ -1,7 +1,7 @@
 %% Exportation des données
 [donnees,textes,lesdeux]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
 
-global OperationalCost ReserveCostPos ReserveCostNeg
+global OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
 p_min=donnees(:,4); % Puissance minimale 
 p_max=donnees(:,5); % Puissance maximale
 reservePos=donnees(:,6); % Capacité de réserve positive
