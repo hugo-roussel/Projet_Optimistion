@@ -20,5 +20,33 @@ for k=1:24
     ceq(k)=sum(P(k:24:12*24)) - Demand(k);
 end
 
+<<<<<<< HEAD
 end
+=======
+>>>>>>> bfcc763e8a00f7d90ff1ad69d6ac81af0468b981
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Contraintes relatives aux conditions initales de fonctionnement
+
+ceq=[];
+
+end
