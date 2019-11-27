@@ -18,6 +18,7 @@ StartUpCost=donnees(:,15); % Cout de démarrage
 Pinit=donnees(:,16); % Puissance production à l'instant initiale
 InitState=donnees(:,17); % Etat de fonctionnement à l'instant initiale
 InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initiale
+
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
@@ -26,6 +27,7 @@ n(2)=12*24*2; % Relatif aux réserves pos et neg
 x=randi([0 1],1,12*24*4);
 % Les 12*24 premières colonnes seront dédiées aux puissances
 % Les 12*24*2 aux réservePos et reserve Neg
+
 %% Contraintes
 % Matrice contraintes de rampes de puissances
 global resCostPos24 resCostNeg24 rampeUp24 rampeDown24
