@@ -1,5 +1,6 @@
 %% Exportation des données
-[donnees,textes,lesdeux]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
+[donnees,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
+[donnees_demande,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableau1');
 
 global Pinit InitState minimumUpTime minimumDownTime InitLength OperationalCost ReserveCostPos ReserveCostNeg StartUpCost rampeUp24 rampeDown24
 p_min=donnees(:,4); % Puissance minimale 
@@ -17,14 +18,13 @@ StartUpCost=donnees(:,15); % Cout de démarrage
 Pinit=donnees(:,16); % Puissance production à l'instant initiale
 InitState=donnees(:,17); % Etat de fonctionnement à l'instant initiale
 InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initiale
+
+global Demand
+Demand=donnees_demande(:,2); % Demande de puissance (MW)
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
-<<<<<<< HEAD
-%n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
-=======
 % n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
->>>>>>> 5da8598b4b14fdc51aee37c1d87e75b6aa6ba697
 
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24*4);

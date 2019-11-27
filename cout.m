@@ -16,7 +16,7 @@ for i=1:12 % boucle sur les machines
                 dem(i) = dem(i) + 1;
             end
         end
-        if x(24*(i-1)+k) ~= 0
+        if k~=1 && x(24*(i-1)+k) ~= 0
             if x(24*(i-1)+k-1) == 0
                 dem(i) = dem(i) + 1;
             end
