@@ -1,10 +1,6 @@
 function [ceq,cineq]=contraintes_NL(x)
 % Contraintes relatives aux rampes
-<<<<<<< HEAD
-global rampeDown24 rampeUp24 Demand Pinit
-=======
 global rampeDown24 rampeUp24 Demand p_min24 p_max24
->>>>>>> 9fcdabb16d1adfdbb7df08ee8ee4f8ed22900023
 for k=1:12*24
     cineq(k)=x(k+1)-x(k)-rampeUp24(k);
     cineq(k+12*24)=x(k)-rampeDown24(k)-x(k+1);
@@ -19,20 +15,18 @@ for k=1:12
     cineq(k+12+576)=-minimumUpTime(k)+Temps2Fonctionnement(k+12);
 end
 
-<<<<<<< HEAD
 % Contraintes relatives aux rampes initiales
 for k=1:12
     for i=1:24:288
         cineq(end+1)=x(i)-rampeUp24(i)-Pinit(k);
         cineq(end+1)=Pinit(k)-rampeDown24-x(i);
-=======
+
 % Contraintes relatives à l'état de fonct. des machines
 E=fct_etat(x);
 for k=1:12
     for i=1:24
     cineq(600+24*(k-1)+i)=x(24*(k-1)+i) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
     cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i) - E(24*(k-1)+i)*p_min24(24*(k-1)+i));
->>>>>>> 9fcdabb16d1adfdbb7df08ee8ee4f8ed22900023
     end
 end
 
@@ -41,34 +35,5 @@ P = x(1:12*24); %puissances de chaque machine pour chaque heure
 for k=1:24
     ceq(k)=sum(P(k:24:12*24)) - Demand(k);
 end
-<<<<<<< HEAD
-=======
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% Contraintes relatives aux conditions initales de fonctionnement
-
-ceq=[];
->>>>>>> 9fcdabb16d1adfdbb7df08ee8ee4f8ed22900023
 
 end
