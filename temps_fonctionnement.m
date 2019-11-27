@@ -39,4 +39,5 @@ for i=1:12 % Récupération du temps de marche max et du temps de non en marche ma
     MinMax(i,1)=min(Liste2(i,:));
     MinMax(i,2)=max(Liste2(i,:));
 end
+MinMax=[MinMax(:,1);MinMax(:,2)];
 end
