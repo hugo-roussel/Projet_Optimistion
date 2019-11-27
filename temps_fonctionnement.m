@@ -35,7 +35,7 @@ for i=1:12 % Numéro de la machine
         end
     end
 end
-for i=1:12
+for i=1:12 % Récupération du temps de marche max et du temps de non en marche max.
     MinMax(i,1)=min(Liste2(i,:));
     MinMax(i,2)=max(Liste2(i,:));
 end
