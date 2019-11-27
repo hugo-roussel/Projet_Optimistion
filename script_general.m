@@ -8,7 +8,7 @@ reserveNeg=donnees(:,7); % Capacité de réserve négative
 rampeUpRate=60*donnees(:,8); % Limite de variation de puissance UP
 rampeDownRate=60*donnees(:,9); % Limite de variation de puissance DOWN
 minimumUpTime=donnees(:,10); % Temps minimale de fonctionnement
-minimumDownTime=donnees(:,11); % Temps minimale d'arrêt
+minimumDownTime=-donnees(:,11); % Temps minimale d'arrêt
 OperationalCost=donnees(:,12); % Cout de fonctionnelent
 ReserveCostPos=donnees(:,13); % Cout de réserve positive
 ReserveCostNeg=donnees(:,14); % Cout de réserve négative
@@ -21,7 +21,7 @@ global InitLength
 InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initiale
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
-n(2)=12*24; % Relatif aux rampes
+n(2)=12*24; % Relatif aux réserves pos et neg
 n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
 % x=zeros(1,sum(n));
 x=randi([0 1],1,12*24);
