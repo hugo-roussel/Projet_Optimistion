@@ -15,6 +15,12 @@ for k=1:12
     cineq(k+12+576)=-minimumUpTime(k)+Temps2Fonctionnement(k+12);
 end
 
+% Contraintes relatives aux rampes initiales
+for k=1:12
+    for i=1:24:288
+        cineq(end+1)=x(i)-rampeUp24(i)-Pinit(k);
+        cineq(end+1)=Pinit(k)-rampeDown24-x(i);
+
 % Contraintes relatives à l'état de fonct. des machines
 E=fct_etat(x);
 for k=1:12
@@ -29,31 +35,5 @@ P = x(1:12*24); %puissances de chaque machine pour chaque heure
 for k=1:24
     ceq(k)=sum(P(k:24:12*24)) - Demand(k);
 end
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% Contraintes relatives aux conditions initales de fonctionnement
-
-ceq=[];
 
 end
