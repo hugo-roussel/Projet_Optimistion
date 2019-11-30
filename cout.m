@@ -5,7 +5,7 @@ cout_ope = x(1:12*24)*repmat(OperationalCost,24,1);
 
 % coûts liés à l'utilisation de réserves positives & négatives
 cout_res_pos = x(12*24+1:12*24*2)*resCostPos24;
-cout_res_neg = x(12*24+1:12*24*2)*resCostNeg24;
+cout_res_neg = x(12*24*2+1:12*24*3)*resCostNeg24;
 
 % coût lié au démarrage
 dem = zeros(1,12); % compte le nombre de démarrage

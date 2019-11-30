@@ -33,7 +33,7 @@ x=randi([0 1],1,12*24*4);
 
 %% Contraintes
 % Matrice contraintes de rampes de puissances
-global resCostPos24 resCostNeg24 rampeUp24 rampeDown24
+global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24
 rampeUp24=[];
 rampeDown24=[];
 p_min24=[];

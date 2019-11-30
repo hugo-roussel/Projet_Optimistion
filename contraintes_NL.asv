@@ -1,6 +1,6 @@
 function [ceq,cineq]=contraintes_NL(x)
 % Contraintes relatives aux rampes
-global rampeDown24 rampeUp24 Demand p_min24 p_max24 resPos24 resNeg24
+global rampeDown24 rampeUp24 Demand p_min24 p_max24
 for k=1:12*24
     cineq(k)=x(k+1)-x(k)-rampeUp24(k);
     cineq(k+12*24)=x(k)-rampeDown24(k)-x(k+1);
@@ -29,9 +29,11 @@ for k=1:12
     cineq(600+24*(k-1)+i)=x(24*(k-1)+i) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
     cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i) - E(24*(k-1)+i)*p_min24(24*(k-1)+i));
     
-    cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288) - E(24*(k-1)+i)*resPos24(24*(k-1)+i);
+    cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
+    cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i+288) - E(24*(k-1)+i)*p_min24(24*(k-1)+i+288));
     
-    cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288*2) - E(24*(k-1)+i)*resNeg24(24*(k-1)+i);
+    cineq(600+24*(k-1)+i)=x(24*(k-1)+i) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
+    cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i) - E(24*(k-1)+i)*p_min24(24*(k-1)+i));
     end
 end
 
