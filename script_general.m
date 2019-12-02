@@ -25,15 +25,17 @@ Demand=donnees_demande(:,2); % Demande de puissance (MW)
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
 n(2)=12*24*2; % Relatif aux réserves pos et neg
+
 % n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
 % x=zeros(1,sum(n));
-x=randi([0 1],1,12*24*4);
+% x=randi([0 1],1,12*24*4);
+
 % Les 12*24 premières colonnes seront dédiées aux puissances
 % Les 12*24*2 aux réservePos et reserve Neg
 
 %% Contraintes
 % Matrice contraintes de rampes de puissances
-global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24
+global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24 p_min24 p_max24
 rampeUp24=[];
 rampeDown24=[];
 p_min24=[];
@@ -76,13 +78,13 @@ lb = [zeros(1,n(1)) zeros(1,n(2))];
 ub = [p_max24 resPos24 resNeg24];
 
 %vecteur initialisation
-x0 = [p_min24 zeros(1,n(2))];
+x0 = [p_min24 ones(1,n(2))];
 
 % Options liées à l'utilisation de fmincon 
-% options = optimoptions('fmincon','Display','iter','Diagnostics','on');
+options = optimoptions('fmincon','Display','iter','Diagnostics','on');
 
 % Appel de fmincon
-% [x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contrainte_NL,options);
+[x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
 
 
 
