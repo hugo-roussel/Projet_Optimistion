@@ -26,17 +26,13 @@ end
 % Contraintes relatives à l'état de fonct. des machines
 E=fct_etat(x);
 for k=1:12
-<<<<<<< HEAD
-    for i=1:24  
-=======
     for i=1:24
->>>>>>> 5b39d580f5d84004f0637e27c749c8f0a42722be
-    cineq(600+24*(k-1)+i)=x(24*(k-1)+i) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
-    cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i) - E(24*(k-1)+i)*p_min24(24*(k-1)+i));
-    
-    cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288) - E(24*(k-1)+i)*resPos24(24*(k-1)+i);
-    
-    cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288*2) - E(24*(k-1)+i)*resNeg24(24*(k-1)+i);
+        cineq(600+24*(k-1)+i)=x(24*(k-1)+i) - E(24*(k-1)+i)*p_max24(24*(k-1)+i);
+        cineq(600+288+24*(k-1)+i)=-(x(24*(k-1)+i) - E(24*(k-1)+i)*p_min24(24*(k-1)+i));
+
+        cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288) - E(24*(k-1)+i)*resPos24(24*(k-1)+i);
+
+        cineq(600+24*(k-1)+i)=x(24*(k-1)+i+288*2) - E(24*(k-1)+i)*resNeg24(24*(k-1)+i);
     end
 end
 
@@ -47,5 +43,8 @@ Rneg = x(12*24*2+1:12*24*3); % réserves neg de chaque machines pour chaque heure
 for k=1:24
     ceq(k)=sum(P(k:24:12*24)) + sum(Rpos(k:24:12*24)) - sum(Rneg(k:24:12*24)) - Demand(k);
 end
+
+cineq
+ceq
 
 end

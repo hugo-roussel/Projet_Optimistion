@@ -74,11 +74,11 @@ Aeq=[];
 beq=[];
 
 %bornes basses & hautes
-lb = [zeros(1,n(1)) zeros(1,n(2))];
+lb = [zeros(1,n(1)) zeros(1,n(2 ))];
 ub = [p_max24 resPos24 resNeg24];
 
 %vecteur initialisation
-x0 = [p_min24 ones(1,n(2))];
+x0 = [p_min24 zeros(1,n(2))];
 
 % Options liées à l'utilisation de fmincon 
 options = optimoptions('fmincon','Display','iter','Diagnostics','on');
