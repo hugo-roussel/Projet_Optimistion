@@ -4,8 +4,14 @@ global OperationalCost resCostPos24 resCostNeg24 StartUpCost Pinit
 cout_ope = x(1:12*24)*repmat(OperationalCost,24,1);
 
 % coûts liés à l'utilisation de réserves positives & négatives
-cout_res_pos = x(12*24+1:12*24*2)*resCostPos24;
-cout_res_neg = x(12*24*2+1:12*24*3)*resCostNeg24;
+cout_res=0;
+for i=1:12*24
+    if x(i+288)>0
+        cout_res=cout_res+x(i+288)*resCostPos24(i);
+    else
+        cout_res=cout_res+x(i+288)*(-resCostNeg24(i));
+    end
+end
 
 % coût lié au démarrage
 dem = zeros(1,12); % compte le nombre de démarrage
@@ -26,5 +32,5 @@ end
 cout_dem = dem*StartUpCost;
 
 % coût total
-f = cout_ope + cout_res_pos + cout_res_neg + cout_dem;
+f = cout_ope + cout_res + cout_dem;
 end

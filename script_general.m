@@ -24,7 +24,7 @@ Demand=donnees_demande(:,2); % Demande de puissance (MW)
 
 %% Structure du vecteur à optimiser
 n(1)=12*24; % Relatif aux puissances
-n(2)=12*24*2; % Relatif aux réserves pos et neg
+n(2)=12*24; % Relatif aux réserves pos et neg
 
 % n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
 % x=zeros(1,sum(n));
@@ -67,26 +67,30 @@ rampeDown24=rampeDown24';
 fun = @(x)cout(x);
 
 %contraintes ineg & eg
-Aineq = [];
+Aineq=[];
 bineq=[];
 
 Aeq=[];
 beq=[];
 
 %bornes basses & hautes
-lb = [zeros(1,n(1)) zeros(1,n(2))];
-ub = [p_max24 resPos24 resNeg24];
+lb = [zeros(1,n(1)) -resNeg24];
+ub = [p_max24 resPos24];
 
 %vecteur initialisation
-x0 = [p_min24 ones(1,n(2))];
+x0 = [p_min24 zeros(1,n(2))];
 
-% Options liées à l'utilisation de fmincon 
-options = optimoptions('fmincon','Display','iter','Diagnostics','on');
+% % Options liées à l'utilisation de fmincon 
+% options = optimoptions('fmincon','Display','iter','Diagnostics','on');
+% options.MaxFunctionEvaluations=20000;
+% % options.StepTolerance=1e-12;
 
-% Appel de fmincon
-[x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
+% % Appel de fmincon
+% [x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
+% fval
+% flag
 
-
-
-
-
+% Appel de GA
+nvars=2*288;
+options = optimoptions('ga','Display','iter');
+[x,feval,exitflag,output,scores]=ga(@cout,nvars,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
