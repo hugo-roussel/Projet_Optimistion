@@ -74,12 +74,18 @@ Aeq=[];
 beq=[];
 
 %bornes basses & hautes
+<<<<<<< HEAD
 lb = [zeros(1,n(1)) -resNeg24];
 ub = [p_max24 resPos24];
+=======
+lb = [zeros(1,n(1)) zeros(1,n(2 ))];
+ub = [p_max24 resPos24 resNeg24];
+>>>>>>> 279fbe8272e08108a2c71d4875c3e85ec9af6333
 
 %vecteur initialisation
 x0 = [p_min24 zeros(1,n(2))];
 
+<<<<<<< HEAD
 % % Options liées à l'utilisation de fmincon 
 % options = optimoptions('fmincon','Display','iter','Diagnostics','on');
 % options.MaxFunctionEvaluations=20000;
@@ -94,3 +100,15 @@ x0 = [p_min24 zeros(1,n(2))];
 nvars=2*288;
 options = optimoptions('ga','Display','iter');
 [x,feval,exitflag,output,scores]=ga(@cout,nvars,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
+=======
+% Options liées à l'utilisation de fmincon 
+options = optimoptions('fmincon','Display','iter','Diagnostics','on');
+
+% Appel de fmincon
+[x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL_end,options);
+
+
+
+
+
+>>>>>>> 279fbe8272e08108a2c71d4875c3e85ec9af6333
