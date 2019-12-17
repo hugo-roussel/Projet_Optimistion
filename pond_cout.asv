@@ -1,0 +1,18 @@
+function cout=pond_cout(x)
+
+global resCostPos24 resCostNeg24 StartUpCost Pinit CoutOPE nbr_heures
+
+% coût lié à la production d'énergie
+cout_ope = x(1:12*nbr_heures)*CoutOPE';
+
+% coûts liés à l'utilisation de réserves positives & négatives
+
+logpos=x(12*nbr_heures+1:12*nbr_heures*2)>0;
+costpos=x(12*nbr_heures+1:12*nbr_heures*2).*logpos*resCostPos24;
+logneg=x(12*nbr_heures+1:12*nbr_heures*2)<0;
+costneg=x(12*nbr_heures+1:12*nbr_heures*2).*logneg*resCostNeg24;
+
+cout_res=costneg+costpos;
+
+cout=cout_ope+cout_res;
+end

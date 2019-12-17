@@ -1,4 +1,4 @@
-%% Exportation des données
+% Exportation des données
 [donnees,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
 [donnees_demande,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableau1');
 
@@ -22,18 +22,6 @@ InitLength=donnees(:,18); % Temps de fonctionnement ou d'arrêt à l'instant initi
 global Demand
 Demand=donnees_demande(:,2); % Demande de puissance (MW)
 
-%% Structure du vecteur à optimiser
-n(1)=12*24; % Relatif aux puissances
-n(2)=12*24; % Relatif aux réserves pos et neg
-
-% n(3)=12*24; % Relatif aux états de fonctionnement (Utile ? avec les puissances on peut les récup)
-% x=zeros(1,sum(n));
-% x=randi([0 1],1,12*24*4);
-
-% Les 12*24 premières colonnes seront dédiées aux puissances
-% Les 12*24*2 aux réservePos et reserve Neg
-
-%% Contraintes
 % Matrice contraintes de rampes de puissances
 global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24 p_min24 p_max24 rampeUp23 rampeDown23 A
 A=[];
@@ -67,15 +55,13 @@ resCostNeg24=resCostNeg24';
 rampeUp24=rampeUp24';
 rampeDown24=rampeDown24';
 
-% Récupérer le temps de fonctionnement 
-"La fonction temps_fonctionnement s'en charge, utilisée dans les contraintes_NL";
-
-%% Optimisation
-%fonction coût à optimiser
-fun = @(x)cout(x);
+% Structure du vecteur à optimiser
+n(1)=12*24; % Relatif aux puissances
+n(2)=12*24; % Relatif aux réserves pos et neg
+n(3)=12*24;% Relatif aux états d'activations
 
 % %contraintes ineg & eg
-Aineq=zeros(276,576);
+Aineq=zeros(276,864);
 h=0;
 for k=1:12*23-1
     if mod(k,23)==0
@@ -91,36 +77,20 @@ AineqDouble=-Aineq;
 Aineq=vertcat(Aineq,AineqDouble);
 bineq=[rampeUp23 rampeDown23];
 
-Aeq=zeros(24,576);
-for k=1:24
-    Aeq(k,k:24:576)=1;
-end
-beq=Demand;
-
-% Aeq=[];
-% beq=[];
-% Aineq=[];
-% bineq=[];
+Aeq=[];
+beq=[];
 
 %bornes basses & hautes
-lb = [zeros(1,n(1)) -resNeg24];
-ub = [p_max24 resPos24];
+lb = [zeros(1,n(1)) -resNeg24 zeros(1,n(3))];
+ub = [p_max24 resPos24 ones(1,n(3))];
 
 %vecteur initialisation
-x0 = [zeros(1,n(1)) zeros(1,n(2))];
+x0 = [zeros(1,n(1)) zeros(1,n(2)) zeros(1,n(3))];
 
-% Options liées à l'utilisation de fmincon 
-options = optimoptions('fmincon','Display','iter','Diagnostics','on');
-options.MaxFunctionEvaluations=300000;
-options.StepTolerance=1e-12;
+%% Appel de GA
+nvars=3*288;
+intcon=577:864;
+options = optimoptions('ga',options,'PlotFcn',@plotbestf);
 
-% Appel de fmincon
-[x,fval,flag,out]=fmincon(fun,x0,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL,options);
-fval
-flag
+[x,feval,exitflag,output,scores]=ga(@cout,nvars,Aineq,bineq,[],[],lb,ub,@Copy_of_contraintes_NL,intcon);
 
-% % Appel de GA
-% nvars=2*288;
-% % intcon=576:864;
-% options = optimoptions('ga');
-% [x,feval,exitflag,output,scores]=ga(fun,nvars,Aineq,bineq,Aeq,beq,lb,ub,@contraintes_NL,options);
