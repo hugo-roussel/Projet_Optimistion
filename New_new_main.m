@@ -88,13 +88,15 @@ lb = [zeros(1,n(1)) -resNeg24 zeros(1,n(3))];
 ub = [p_max24 resPos24 ones(1,n(3))];
 
 %vecteur initialisation
-x0 = [zeros(1,n(1)) zeros(1,n(2)) zeros(1,n(3))];
+% x0 = [zeros(1,n(1)) zeros(1,n(2)) zeros(1,n(3))];
 
 %% Appel de GA
 nvars=length(n)*12*nbr_heures;
-intcon=(length(n)-1)*nbr_heures:length(n)*nbr_heures;
+intcon=n(1)+n(2)+1:n(1)+n(2)+n(3);
 options = optimoptions('ga','Display','iter');
+% options.InitialPopulationMatrix = x0;
 
-[x,feval,exitflag,output,scores]=ga(@pond_cout,nvars,Aineq,bineq,[],[],lb,ub,@pond_cont,intcon,options);
+% [x,feval,exitflag,output,scores]=ga(@pond_cout,nvars,Aineq,bineq,[],[],lb,ub,@pond_cont,intcon,options);
 feval
 exitflag
+

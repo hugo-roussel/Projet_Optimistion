@@ -1,8 +1,9 @@
-nbr_heures=2;
-
 % Exportation des données
 [donnees,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableaux2et3et4');
 [donnees_demande,~,~]=xlsread('Donnees_Projet_Optimisation.xlsx','Tableau1');
+
+global nbr_heures
+nbr_heures=2;
 
 global Pinit InitState minimumUpTime minimumDownTime InitLength OperationalCost ReserveCostPos ReserveCostNeg StartUpCost
 p_min=donnees(:,4); % Puissance minimale 
@@ -25,8 +26,8 @@ global Demand
 Demand=donnees_demande(:,2); % Demande de puissance (MW)
 
 % Matrice contraintes de rampes de puissances
-global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24 p_min24 p_max24 rampeUp23 rampeDown23 A
-A=[];
+global resCostPos24 resCostNeg24 rampeUp24 rampeDown24 resPos24 resNeg24 p_min24 p_max24 rampeUp23 rampeDown23 CoutOPE
+CoutOPE=[];
 rampeUp24=[];
 rampeUp23=[];
 rampeDown23=[];
@@ -39,7 +40,7 @@ resCostPos24=[];
 resCostNeg24=[];
 
 for i=1:12
-    A=[A ones(1,nbr_heures)*OperationalCost(i)];
+    CoutOPE=[CoutOPE ones(1,nbr_heures)*OperationalCost(i)];
     rampeUp24=[rampeUp24 ones(1,nbr_heures)*rampeUpRate(i)];
     rampeDown24=[rampeDown24 ones(1,nbr_heures)*rampeDownRate(i)];
     p_min24=[p_min24 ones(1,nbr_heures)*p_min(i)];
@@ -63,10 +64,10 @@ n(2)=12*nbr_heures; % Relatif aux réserves pos et neg
 n(3)=12*nbr_heures;% Relatif aux états d'activations
 
 % %contraintes ineg & eg
-Aineq=zeros(12*nbr_heures,12*nbr_heures*length(n));
+Aineq=zeros(12*(nbr_heures-1),12*nbr_heures*length(n));
 h=0;
 for k=1:12*(nbr_heures-1)-1
-    if mod(k,23)==0
+    if mod(k,nbr_heures-1)==0
         h=h+2;
     else
         h=h+1;
@@ -87,11 +88,15 @@ lb = [zeros(1,n(1)) -resNeg24 zeros(1,n(3))];
 ub = [p_max24 resPos24 ones(1,n(3))];
 
 %vecteur initialisation
-x0 = [zeros(1,n(1)) zeros(1,n(2)) zeros(1,n(3))];
+% x0 = [zeros(1,n(1)) zeros(1,n(2)) zeros(1,n(3))];
 
 %% Appel de GA
-nvars=3*288;
-intcon=577:864;
-options = optimoptions('ga',options,'PlotFcn',@plotbestf);
+nvars=length(n)*12*nbr_heures;
+intcon=n(1)+n(2)+1:;
+options = optimoptions('ga','Display','iter');
+% options.InitialPopulationMatrix = x0;
 
-[x,feval,exitflag,output,scores]=ga(@cout,nvars,Aineq,bineq,[],[],lb,ub,@Copy_of_contraintes_NL,intcon);
+[x,feval,exitflag,output,scores]=ga(@pond_cout,nvars,Aineq,bineq,[],[],lb,ub,@pond_cont,intcon,options);
+feval
+exitflag
+
